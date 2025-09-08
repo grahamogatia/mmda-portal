@@ -1,6 +1,7 @@
 import { type Location } from "@/api/locations";
 import { type Advisory, getAdvisoryByLocationFromStore } from "@/api/database";
 import { useEffect, useState } from "react";
+import AdvisoryItem from "./AdvisoryItem";
 
 function AdvisoryTab(location: Location) {
   const [advisories, setAdvisories] = useState<Advisory[]>([]);
@@ -18,9 +19,7 @@ function AdvisoryTab(location: Location) {
         <header className="font-semibold">{ location.name }</header>
         <div>
             {advisories.map(item => {
-                return <p key={item.id}>
-                    {item.content}
-                </p>
+                return <AdvisoryItem {...item}/>
             })}
         </div>
     </div>

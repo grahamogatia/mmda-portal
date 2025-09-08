@@ -8,7 +8,7 @@ function Editable( {content, setContent}: {content: string, setContent: (content
   const onContentChange = useCallback((evt: { currentTarget: { innerHTML: string; }; }) => {
     // Sanitize content to allow font-size and other tags
     const sanitizeConf = {
-      allowedTags: ["b", "i", "p", "span", "font", "br"], // Allow <span> for inline styles
+      allowedTags: ["b", "i", "p", "span", "font", "br", "u"], // Allow <span> for inline styles
       allowedAttributes: {
         "*": ["style"],  // Allow inline styles for all tags
         "font": ["size"], // Allow size in font tags
@@ -20,7 +20,7 @@ function Editable( {content, setContent}: {content: string, setContent: (content
   return (
     <div>
       <ContentEditable
-        className="min-h-[200px]"
+        className="min-h-[200px] text-center"
         id="editable-content"
         onChange={onContentChange}
         onBlur={onContentChange}
