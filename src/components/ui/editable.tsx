@@ -19,7 +19,6 @@ function Editable( {content, setContent}: {content: string, setContent: (content
 
   return (
     <div>
-        <p className="w-full text-start font-semibold">Enter Advisory Here:</p> 
       <ContentEditable
         className="min-h-[200px]"
         id="editable-content"

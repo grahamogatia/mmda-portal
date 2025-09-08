@@ -22,6 +22,7 @@ import {
   FormLabel,
   FormMessage,
 } from "../ui/form";
+import { toast } from "sonner";
 
 function AddAdvisory() {
   const [location, setLocation] = useState<Location[]>([]);
@@ -37,11 +38,15 @@ function AddAdvisory() {
 
   const onSubmit = async (values: z.infer<typeof advisorySchema>) => {
     // Check the structure
-    console.log("Form values: ", values);
-    // await addAdvisoryToStore(
-    //   content,
-    //   location.map((loc) => loc.id)
-    // );
+    //console.log("Form values: ", values);
+    const result = await addAdvisoryToStore(
+      values.content,
+      values.location.map((loc: Location) => loc.id)
+    );
+    if (result) {
+      toast.success("Successfully added to the database.")
+      form.reset();
+    }
   };
 
   return (
