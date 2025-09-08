@@ -8,14 +8,14 @@ const DB_VERSION = 1;
 const ADVISORIES_STORE_NAME = "advisories";
 const USERS_STORE_NAME = "users";
 
-type LocationId = typeof locations[number]["id"];
+export type LocationId = typeof locations[number]["id"];
 
 type Advisory = {
     id: number;
     content: string;
     enabled: 0 | 1;
     location: LocationId[];
-    order: number;
+    order: number[];
     isDeleted: 0 | 1;
 }
 
@@ -33,8 +33,8 @@ export const useDB = async () => {
 
             if (!db.objectStoreNames.contains(ADVISORIES_STORE_NAME)) {
                 const advisoriesObjectStore= db.createObjectStore(ADVISORIES_STORE_NAME, {keyPath: 'id', autoIncrement: true});
-                advisoriesObjectStore.createIndex("locations", "locations", {multiEntry: true});
-                advisoriesObjectStore.createIndex("location_enabled", ["locations", "enabled"], {multiEntry: false});
+                advisoriesObjectStore.createIndex("location", "location", {multiEntry: true});
+                advisoriesObjectStore.createIndex("location_enabled", ["location", "enabled"], {multiEntry: false});
             }
             if (!db.objectStoreNames.contains(USERS_STORE_NAME)) {
                 const usersObjectStore = db.createObjectStore(USERS_STORE_NAME, {keyPath: 'id', autoIncrement: true});
@@ -44,15 +44,29 @@ export const useDB = async () => {
     });
 }
 
-export const addAdvisoryToStore = async (item: Omit<Advisory, "id">) => {
+export const addAdvisoryToStore = async (content: string, locationID: LocationId[]) => {
     const db = await openDB(DB_NAME, DB_VERSION);
-    await db.add(ADVISORIES_STORE_NAME, item);
+    const orders: number[] = [];
+
+    for (const location of locationID) {
+        const advisories = await getAdvisoryByLocationFromStore(location);
+        console.log(advisories)
+    }
+
+    // const item = {
+    //     content: content,
+    //     enabled: 1,
+    //     location: locationID,
+    //     order: locationID.map(() => 0),
+    //     isDeleted: 0
+    // }
+    //await db.add(ADVISORIES_STORE_NAME, item);
 }
 
 export const getAdvisoryByLocationFromStore = async (locationId : LocationId, isEnabled?: 0 | 1) => {
     const db = await openDB(DB_NAME, DB_VERSION);
     if (isEnabled === undefined) {
-        return await db.getAllFromIndex(ADVISORIES_STORE_NAME, "locations", locationId);
+        return await db.getAllFromIndex(ADVISORIES_STORE_NAME, "location", locationId);
     } else {
         return await db.getAllFromIndex(ADVISORIES_STORE_NAME, "location_enabled", [locationId, isEnabled]);
     }
