@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Button } from "../ui/button";
 import { Combobox } from "../ui/combobox";
 import Editable from "../ui/editable";
@@ -23,11 +22,9 @@ import {
   FormMessage,
 } from "../ui/form";
 import { toast } from "sonner";
+import type z from "zod";
 
 function AddAdvisory() {
-  const [location, setLocation] = useState<Location[]>([]);
-  const [content, setContent] = useState<string>("");
-
   const form = useForm<z.infer<typeof advisorySchema>>({
     resolver: zodResolver(advisorySchema),
     defaultValues: {
@@ -37,8 +34,6 @@ function AddAdvisory() {
   });
 
   const onSubmit = async (values: z.infer<typeof advisorySchema>) => {
-    // Check the structure
-    //console.log("Form values: ", values);
     const result = await addAdvisoryToStore(
       values.content,
       values.location.map((loc: Location) => loc.id)
