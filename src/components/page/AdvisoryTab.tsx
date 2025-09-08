@@ -17,7 +17,7 @@ function AdvisoryTab(location: Location) {
   return(
     <div>
         <header className="font-semibold">{ location.name }</header>
-        <div>
+        <div className="space-y-2">
             {advisories.map(item => {
                 return <AdvisoryItem {...item}/>
             })}

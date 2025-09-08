@@ -29,12 +29,12 @@ function Login() {
             return;  
         }
         localStorage.setItem("user", JSON.stringify(result));
-        navigate("/");
+        navigate("/home");
     }
 
     useEffect(() => {
         if (localStorage.getItem("user")) {
-            navigate("/");
+            navigate("/home");
         }
     }, [])
 
