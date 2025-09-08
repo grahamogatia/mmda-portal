@@ -1,5 +1,7 @@
 # React + TypeScript + Vite
 
+**Content management system for MMDA MDS Gantry, enabling easy management of advisories, users, and system configurations.**
+
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:
