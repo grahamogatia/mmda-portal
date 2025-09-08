@@ -31,11 +31,11 @@ function Home() {
                             )
                         })}
                     </TabsList>
-                  {locations.map(location => {
-                    return <TabsContent key={location.id} value={location.name} className="border rounded-lg p-2">
-                        {location.name}
-                    </TabsContent>
-                  })}
+                    {locations.map(location => {
+                        return <TabsContent key={location.id} value={location.name} className="border rounded-lg p-2">
+                            {location.name}
+                        </TabsContent>
+                    })}
                 </Tabs>
             </main>
         </div>
