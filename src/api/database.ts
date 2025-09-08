@@ -10,7 +10,7 @@ const USERS_STORE_NAME = "users";
 
 export type LocationId = (typeof locations)[number]["id"];
 
-type Advisory = {
+export type Advisory = {
   id: number;
   content: string;
   enabled: 0 | 1;

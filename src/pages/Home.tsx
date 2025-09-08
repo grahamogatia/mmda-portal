@@ -3,6 +3,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs.
 import { locations } from "../api/locations.ts";
 import { useNavigate } from "react-router-dom"
 import AddAdvisory from "@/components/page/AddAdvisory.tsx";
+import AdvisoryTab from "@/components/page/AdvisoryTab.tsx";
 
 
 
@@ -33,7 +34,7 @@ function Home() {
                     </TabsList>
                     {locations.map(location => {
                         return <TabsContent key={location.id} value={location.name} className="border rounded-lg p-2">
-                            {location.name}
+                            <AdvisoryTab {...location}/>
                         </TabsContent>
                     })}
                 </Tabs>
