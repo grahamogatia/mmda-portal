@@ -13,6 +13,7 @@ import { type Location, locations } from "@/api/locations";
 
 function AddAdvisory() {
   const [location, setLocation] = useState<Location[]>([]);
+  const [content, setContent] = useState<string>("");
 
   const onLocationChange = (id: number) => {
     setLocation((current) => {
@@ -34,7 +35,7 @@ function AddAdvisory() {
         <DialogHeader>
           <DialogTitle>Create Advisory</DialogTitle>
           <Combobox value={location} setValue={onLocationChange} />
-          <Editable />
+          <Editable content={content} setContent={setContent} />
         </DialogHeader>
       </DialogContent>
     </Dialog>
