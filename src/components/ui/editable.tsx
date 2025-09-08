@@ -1,9 +1,9 @@
 import sanitizeHtml from "sanitize-html";
 import ContentEditable from 'react-contenteditable';
-import { useState, useCallback } from "react";
+import { useCallback } from "react";
 
-function Editable() {
-  const [content, setContent] = useState(""); // The HTML content
+function Editable( {content, setContent}: {content: string, setContent: (content: string) => void}) {
+  //const [content, setContent] = useState(""); // The HTML content
 
   const onContentChange = useCallback((evt: { currentTarget: { innerHTML: string; }; }) => {
     // Sanitize content to allow font-size and other tags
