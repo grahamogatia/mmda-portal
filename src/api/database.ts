@@ -4,6 +4,7 @@ import { generateSessionToken } from "./functions.ts";
 import {
   addDoc,
   collection,
+  doc,
   getDocs,
   query,
   updateDoc,
@@ -93,6 +94,19 @@ export const getAdvisoriesByLocation = async (
   );
 };
 
+export const updateAdvisory = async (advisory: Advisory) => {
+  const advisoryRef = doc(ADVISORY_COLLECTION, advisory.id.toString());
+  const { id, ...data } = advisory;
+  await updateDoc(advisoryRef, data);
+  return { id, ...data };
+};
+
+export const deleteAdvisory = async (advisory: Advisory) => {
+  const advisoryRef = doc(ADVISORY_COLLECTION, advisory.id.toString());
+  await updateDoc(advisoryRef, {isDeleted: 1});
+  return { ...advisory, isDeleted: 1 };
+};
+
 export const loginUser = async (user: Omit<User, "id">) => {
   const q = query(USER_COLLECTION, where("username", "==", user.username));
   
@@ -124,72 +138,3 @@ export const registerUser = async (user: Omit<User, "id">) => {
   const password = await bcrypt.hash(user.password, 10);
   return await addDoc(USER_COLLECTION, {username: user.username, password: password});
 };
-
-
-/*
-
-
-export const addAdvisoryToStore = async (
-  content: string,
-  locationID: LocationId[]
-) => {
-  const db = await openDB(DB_NAME, DB_VERSION);
-  const orders: number[] = [];
-
-  for (const [index, location] of locationID.entries()) {
-    const advisories = await getAdvisoryByLocationFromStore(location);
-    if (advisories.length === 0) {
-      orders.push(0);
-    } else {
-        //get the last item from the array
-      const latestAdvisory = advisories[advisories.length - 1];
-      orders.push(latestAdvisory.order[index] + 1);
-    }
-  }
-
-  const item = {
-    content: content,
-    enabled: 1,
-    location: locationID,
-    order: orders,
-    isDeleted: 0,
-  };
-  return await db.add(ADVISORIES_STORE_NAME, item);
-};
-
-export const getAdvisoryByLocationFromStore = async (
-  locationId: LocationId,
-  isEnabled?: 0 | 1
-): Promise<Advisory[]> => {
-  const db = await openDB(DB_NAME, DB_VERSION);
-  if (isEnabled === undefined) {
-    return await db.getAllFromIndex(
-      ADVISORIES_STORE_NAME,
-      "location",
-      locationId
-    );
-  } else {
-    return await db.getAllFromIndex(ADVISORIES_STORE_NAME, "location_enabled", [
-      locationId,
-      isEnabled,
-    ]);
-  }
-};
-
-export const updateAdvisory = async (advisory: Advisory) => {
-  const db = await openDB(DB_NAME, DB_VERSION);
-  return await db.put(ADVISORIES_STORE_NAME, advisory);
-};
-
-export const deleteAdvisory = async (advisory: Advisory) => {
-  const db = await openDB(DB_NAME, DB_VERSION);
-  advisory.isDeleted = 1;
-  return await db.put(ADVISORIES_STORE_NAME, advisory);
-};
-
-export const registerUser = async (user: Omit<User, "id">) => {
-  const db = await openDB(DB_NAME, DB_VERSION);
-  const password = await bcrypt.hash(user.password, 10);
-  return await db.add(USERS_STORE_NAME, { username: user.username, password });
-};
-*/
