@@ -120,6 +120,11 @@ export const loginUser = async (user: Omit<User, "id">) => {
   return currentUser;
 };
 
+export const registerUser = async (user: Omit<User, "id">) => {
+  const password = await bcrypt.hash(user.password, 10);
+  return await addDoc(USER_COLLECTION, {username: user.username, password: password});
+};
+
 
 /*
 
