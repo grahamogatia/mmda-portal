@@ -18,7 +18,7 @@ const USER_COLLECTION = collection(db, "users");
 export type LocationId = (typeof locations)[number]["id"];
 
 export type Advisory = {
-  id: number;
+  id: string;
   content: string;
   enabled: 0 | 1;
   location: LocationId;
@@ -102,7 +102,7 @@ export const updateAdvisory = async (advisory: Advisory) => {
 };
 
 export const deleteAdvisory = async (advisory: Advisory) => {
-  const advisoryRef = doc(ADVISORY_COLLECTION, advisory.id.toString());
+  const advisoryRef = doc(ADVISORY_COLLECTION, advisory.id);
   await updateDoc(advisoryRef, {isDeleted: 1});
   return { ...advisory, isDeleted: 1 };
 };

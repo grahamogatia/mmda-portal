@@ -1,6 +1,8 @@
 import type { Advisory } from "@/api/database";
 import { useEffect, useState } from "react";
 
+const TIME_INTERVAL = 1000;
+
 function DisplayItem({items}: {items:Advisory[]}) {
     const [index, setIndex] = useState(0);
 
@@ -9,13 +11,12 @@ function DisplayItem({items}: {items:Advisory[]}) {
 
         const interval = setInterval(() => {
             setIndex((prev) => (prev + 1) % items.length);
-        }, 10000);
+        }, TIME_INTERVAL);
 
         return () => clearInterval(interval);
     }, [items]);
 
     useEffect(() => {
-        // Reset index if items change
         setIndex(0);
     }, [items]);
 

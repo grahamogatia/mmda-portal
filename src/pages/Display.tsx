@@ -1,9 +1,10 @@
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { locations } from "@/api/locations";
 import { useEffect, useState } from "react";
-import { getAdvisoriesByLocation } from "@/api/database";
 import { type Advisory } from "@/api/database";
 import DisplayItem from "@/components/page/DisplayItem";
+import { collection, onSnapshot, query, where } from "firebase/firestore";
+import { db } from "@/api/firebase";
 
 function Display() {
   const { id } = useParams();
@@ -21,8 +22,22 @@ function Display() {
         return;
       }
 
-      const result = await getAdvisoriesByLocation(location.id);
-      setAdvisories(result);
+      const q = query(
+        collection(db, "advisories"),
+        where("location", "==", location.id),
+        where("enabled", "==", 1),
+        where("isDeleted", "==", 0)
+      );
+  
+      const unsubscribe = onSnapshot(q, (snapshot) => {
+        const results = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        })) as Advisory[];
+        setAdvisories(results);
+      });
+  
+      return () => unsubscribe();
     };
     setup();
   }, [id]);

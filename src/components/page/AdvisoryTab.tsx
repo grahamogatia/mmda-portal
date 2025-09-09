@@ -1,27 +1,39 @@
 import { type Location } from "@/api/locations";
-import { type Advisory, getAdvisoriesByLocation} from "@/api/database";
+import { type Advisory, getAdvisoriesByLocation } from "@/api/database";
 import { useEffect, useState } from "react";
 import AdvisoryItem from "./AdvisoryItem";
+import { collection, onSnapshot, query, where } from "firebase/firestore";
+import { db } from "@/api/firebase";
 
 function AdvisoryTab(location: Location) {
   const [advisories, setAdvisories] = useState<Advisory[]>([]);
 
   useEffect(() => {
-    const setup = async () => {
-      const result = await getAdvisoriesByLocation(location.id);
-      setAdvisories(result);
-    };
-    setup();
+    const q = query(
+      collection(db, "advisories"),
+      where("location", "==", location.id),
+      where("isDeleted", "==", 0)
+    );
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const results = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      })) as Advisory[];
+      setAdvisories(results);
+    });
+
+    return () => unsubscribe(); // Clean up listener on unmount
   }, [location.id]);
 
-  return(
+  return (
     <div>
-        <header className="font-semibold">{ location.name }</header>
-        <div className="space-y-2">
-            {advisories.map(item => {
-                return <AdvisoryItem {...item}/>
-            })}
-        </div>
+      <header className="font-semibold"><a href={`http://localhost:9209/${location.code}`} rel="noopener noreferrer" target="_blank">{location.name}</a></header>
+      <div className="space-y-2">
+        {advisories.map((item) => {
+          return <AdvisoryItem {...item} />;
+        })}
+      </div>
     </div>
   );
 }
