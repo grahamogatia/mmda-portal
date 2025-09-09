@@ -5,17 +5,13 @@ import { useNavigate } from "react-router-dom"
 import AddAdvisory from "@/components/page/AddAdvisory.tsx";
 import AdvisoryTab from "@/components/page/AdvisoryTab.tsx";
 
-
-
 function Home() {
-
     const navigate = useNavigate();
-
+    
     const onClick = () => {
         localStorage.removeItem("user");
         navigate("/login");
     }
-
     return (
         <div className="flex flex-col items-center justify-center">
             <header className="container  flex justify-between items-center p-4">
@@ -34,7 +30,7 @@ function Home() {
                     </TabsList>
                     {locations.map(location => {
                         return <TabsContent key={location.id} value={location.name} className="border rounded-lg p-2">
-                            <AdvisoryTab {...location}/>
+                            <AdvisoryTab {...location} />
                         </TabsContent>
                     })}
                 </Tabs>
