@@ -12,7 +12,7 @@ import { type Location, locations } from "@/api/locations";
 import { advisorySchema } from "@/api/schemas";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { addAdvisoryToStore } from "@/api/database";
+import { addAdvisoryToDB } from "@/api/database";
 import {
   Form,
   FormControl,
@@ -34,7 +34,7 @@ function AddAdvisory() {
   });
 
   const onSubmit = async (values: z.infer<typeof advisorySchema>) => {
-    const result = await addAdvisoryToStore(
+    const result = await addAdvisoryToDB(
       values.content,
       values.location.map((loc: Location) => loc.id)
     );

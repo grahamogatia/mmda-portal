@@ -1,5 +1,5 @@
 import { type Location } from "@/api/locations";
-import { type Advisory, getAdvisoryByLocationFromStore } from "@/api/database";
+import { type Advisory, getAdvisoriesByLocation} from "@/api/database";
 import { useEffect, useState } from "react";
 import AdvisoryItem from "./AdvisoryItem";
 
@@ -8,7 +8,7 @@ function AdvisoryTab(location: Location) {
 
   useEffect(() => {
     const setup = async () => {
-      const result = await getAdvisoryByLocationFromStore(location.id);
+      const result = await getAdvisoriesByLocation(location.id);
       setAdvisories(result);
     };
     setup();

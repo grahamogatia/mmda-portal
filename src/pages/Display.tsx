@@ -1,7 +1,7 @@
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { locations } from "@/api/locations";
 import { useEffect, useState } from "react";
-import { getAdvisoryByLocationFromStore } from "@/api/database";
+import { getAdvisoriesByLocation } from "@/api/database";
 import { type Advisory } from "@/api/database";
 import DisplayItem from "@/components/page/DisplayItem";
 
@@ -21,7 +21,7 @@ function Display() {
         return;
       }
 
-      const result = await getAdvisoryByLocationFromStore(location.id);
+      const result = await getAdvisoriesByLocation(location.id);
       setAdvisories(result);
     };
     setup();
