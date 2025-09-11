@@ -87,17 +87,17 @@ function UpdateAdvisory(item: Advisory) {
               )}
             />
             <div>
-              <button className="px-4 py-2 border rounded">
-                <CustomAlertDialog
-                  type="updateAdvisoryAlert"
-                  onConfirm={async () => {
-                    await form.handleSubmit(async (values) => {
-                      await onSubmit(values);
-                    })();
-                  }}
-                />
-                Update
-              </button>
+              <CustomAlertDialog
+                type="updateAdvisoryAlert"
+                onConfirm={async () => {
+                  await form.handleSubmit(async (values) => {
+                    await onSubmit(values);
+                  })();
+                }}
+                trigger={
+                  <button className="px-4 py-2 border rounded">Update</button>
+                }
+              />
             </div>
           </form>
         </Form>

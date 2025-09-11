@@ -35,14 +35,16 @@ type DialogType = keyof typeof dialogConfig;
 type CustomAlertDialogProps = {
   type: DialogType;
   onConfirm?: () => void;
+  trigger: React.ReactNode
 };
 
-function CustomAlertDialog({ type, onConfirm }: CustomAlertDialogProps) {
+function CustomAlertDialog({ type, onConfirm, trigger }: CustomAlertDialogProps) {
   const { title, description } = dialogConfig[type];
 
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
+        {trigger}
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>

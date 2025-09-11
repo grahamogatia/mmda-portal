@@ -3,6 +3,7 @@ import { Button } from "../ui/button";
 import { Switch } from "../ui/switch";
 import { deleteAdvisory, updateAdvisory, type Advisory } from "@/api/database";
 import UpdateAdvisory from "./UpdateAdvisory";
+import CustomAlertDialog from "../ui/customalertdialog";
 
 function AdvisoryItem(item: Advisory) {
   const onToggleAdvisory = async () => {
@@ -13,8 +14,6 @@ function AdvisoryItem(item: Advisory) {
     await deleteAdvisory(item);
   };
 
-  
-
   return (
     <div className="flex flex-col gap-1 border p-2 pb-5 rounded">
       <div className="flex justify-between">
@@ -22,15 +21,26 @@ function AdvisoryItem(item: Advisory) {
           <GripHorizontal />
         </Button>
         <div className="space-x-2">
-          <Switch
-            onCheckedChange={onToggleAdvisory}
-            checked={Boolean(item.enabled)}
-            className="mr-4"
+          <CustomAlertDialog
+            type="toggleAdvisoryAlert"
+            onConfirm={onToggleAdvisory}
+            trigger={
+              <Switch
+                checked={Boolean(item.enabled)}
+                className="mr-4"
+              />
+            }
           />
           <UpdateAdvisory {...item} />
-          <Button onClick={onClickDeleteButton} variant="ghost" size="icon">
-            <Trash2 />
-          </Button>
+          <CustomAlertDialog
+            type="deleteAdvisoryAlert"
+            onConfirm={onClickDeleteButton}
+            trigger={
+              <Button variant="ghost" size="icon">
+                <Trash2 />
+              </Button>
+            }
+          />
         </div>
       </div>
       <div
