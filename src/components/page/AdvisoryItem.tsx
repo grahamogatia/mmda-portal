@@ -27,9 +27,10 @@ function AdvisoryItem(item: Advisory) {
             trigger={
               <Switch
                 checked={Boolean(item.enabled)}
-                className="mr-4"
+                className="mr-3"
               />
             }
+            triggerAsChild={false}
           />
           <UpdateAdvisory {...item} />
           <CustomAlertDialog

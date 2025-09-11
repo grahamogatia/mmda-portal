@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -26,7 +27,7 @@ const dialogConfig = {
   toggleAdvisoryAlert: {
     title: "Toggle Advisory?",
     description:
-    "This will toggle the advisory.",
+      "This will toggle the advisory.",
   },
 } as const;
 
@@ -35,15 +36,16 @@ type DialogType = keyof typeof dialogConfig;
 type CustomAlertDialogProps = {
   type: DialogType;
   onConfirm?: () => void;
-  trigger: React.ReactNode
+  trigger: ReactNode
+  triggerAsChild?: boolean
 };
 
-function CustomAlertDialog({ type, onConfirm, trigger }: CustomAlertDialogProps) {
+function CustomAlertDialog({ type, onConfirm, trigger, triggerAsChild = true }: CustomAlertDialogProps) {
   const { title, description } = dialogConfig[type];
 
   return (
     <AlertDialog>
-      <AlertDialogTrigger asChild>
+      <AlertDialogTrigger asChild={triggerAsChild}>
         {trigger}
       </AlertDialogTrigger>
       <AlertDialogContent>
@@ -53,15 +55,10 @@ function CustomAlertDialog({ type, onConfirm, trigger }: CustomAlertDialogProps)
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction asChild>
-            <button
-              type="submit"
-              onClick={() => {
-                if (onConfirm) onConfirm();
-              }}
-            >
-              Continue
-            </button>
+          <AlertDialogAction onClick={() => {
+            if (onConfirm) onConfirm();
+          }}>
+            Continue
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
