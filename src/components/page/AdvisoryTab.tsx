@@ -1,5 +1,5 @@
 import { type Location } from "@/api/locations";
-import { type Advisory, getAdvisoriesByLocation } from "@/api/database";
+import { type Advisory } from "@/api/database";
 import { useEffect, useState } from "react";
 import AdvisoryItem from "./AdvisoryItem";
 import { collection, onSnapshot, query, where } from "firebase/firestore";

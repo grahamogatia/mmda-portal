@@ -1,7 +1,8 @@
-import { GripHorizontal, SquarePen, Trash2 } from "lucide-react";
+import { GripHorizontal, Trash2 } from "lucide-react";
 import { Button } from "../ui/button";
 import { Switch } from "../ui/switch";
 import { deleteAdvisory, updateAdvisory, type Advisory } from "@/api/database";
+import UpdateAdvisory from "./UpdateAdvisory";
 
 function AdvisoryItem(item: Advisory) {
 
@@ -21,9 +22,7 @@ function AdvisoryItem(item: Advisory) {
                 </Button>
                 <div className="space-x-2">
                     <Switch onCheckedChange={onToggleAdvisory} checked={Boolean(item.enabled)} className="mr-4"/>
-                    <Button variant="ghost" size="icon">
-                        <SquarePen />
-                    </Button>
+                    <UpdateAdvisory {...item}/>
                     <Button onClick={onClickDeleteButton} variant="ghost" size="icon"> 
                         <Trash2 />
                     </Button>

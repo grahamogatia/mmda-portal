@@ -17,3 +17,7 @@ export const advisorySchema = z.object({
     .array(LocationSchema)
     .min(1, "At least one location must be selected."),
 });
+
+export const updateAdvisorySchema = z.object({
+  content: z.string().min(1, "Advisory content must not be empty."),
+});
