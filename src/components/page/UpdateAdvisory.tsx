@@ -47,6 +47,7 @@ function UpdateAdvisory(item: Advisory) {
       if (result) {
         toast.success("Successfully updated advisory.");
         form.reset(values); // reset to updated values
+        setOpen(false);
       }
     } catch (err) {
       console.error("Failed to update advisory:", err);
@@ -86,16 +87,17 @@ function UpdateAdvisory(item: Advisory) {
               )}
             />
             <div>
-              <CustomAlertDialog
-                type="updateAdvisoryAlert"
-                onConfirm={async () => {
-                  await form.handleSubmit(async (values) => {
-                    await onSubmit(values);
-                    setOpen(false);
-                  })();
-                }}
-                trigger={<button className="px-4 py-2 border rounded">Update</button>}
-              />
+              <button className="px-4 py-2 border rounded">
+                <CustomAlertDialog
+                  type="updateAdvisoryAlert"
+                  onConfirm={async () => {
+                    await form.handleSubmit(async (values) => {
+                      await onSubmit(values);
+                    })();
+                  }}
+                />
+                Update
+              </button>
             </div>
           </form>
         </Form>

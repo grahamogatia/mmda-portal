@@ -23,6 +23,11 @@ const dialogConfig = {
       "This will permanently delete the advisory and cannot be undone.",
     triggerLabel: "Delete",
   },
+  toggleAdvisoryAlert: {
+    title: "Toggle Advisory?",
+    description:
+    "This will toggle the advisory.",
+  },
 } as const;
 
 type DialogType = keyof typeof dialogConfig;
@@ -30,16 +35,14 @@ type DialogType = keyof typeof dialogConfig;
 type CustomAlertDialogProps = {
   type: DialogType;
   onConfirm?: () => void;
-  trigger: React.ReactNode;
 };
 
-function CustomAlertDialog({ type, onConfirm, trigger }: CustomAlertDialogProps) {
+function CustomAlertDialog({ type, onConfirm }: CustomAlertDialogProps) {
   const { title, description } = dialogConfig[type];
 
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        {trigger}
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
