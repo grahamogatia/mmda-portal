@@ -30,15 +30,16 @@ type DialogType = keyof typeof dialogConfig;
 type CustomAlertDialogProps = {
   type: DialogType;
   onConfirm?: () => void;
+  trigger: React.ReactNode;
 };
 
-function CustomAlertDialog({ type, onConfirm }: CustomAlertDialogProps) {
-  const { title, description, triggerLabel } = dialogConfig[type];
+function CustomAlertDialog({ type, onConfirm, trigger }: CustomAlertDialogProps) {
+  const { title, description } = dialogConfig[type];
 
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <button className="px-4 py-2 border rounded">{triggerLabel}</button>
+        {trigger}
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>

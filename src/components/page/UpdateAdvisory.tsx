@@ -94,6 +94,7 @@ function UpdateAdvisory(item: Advisory) {
                     setOpen(false);
                   })();
                 }}
+                trigger={<button className="px-4 py-2 border rounded">Update</button>}
               />
             </div>
           </form>
