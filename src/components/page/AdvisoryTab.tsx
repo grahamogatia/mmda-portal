@@ -1,12 +1,25 @@
 import { type Location } from "@/api/locations";
-import { type Advisory } from "@/api/database";
+import { updateAdvisory, type Advisory } from "@/api/database";
 import { useEffect, useState } from "react";
 import AdvisoryItem from "./AdvisoryItem";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { db } from "@/api/firebase";
+import {
+  DndContext,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  type DragEndEvent,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  SortableContext,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
 
 function AdvisoryTab(location: Location) {
   const [advisories, setAdvisories] = useState<Advisory[]>([]);
+  const sensors = useSensors(useSensor(PointerSensor));
 
   useEffect(() => {
     const q = query(
@@ -26,15 +39,63 @@ function AdvisoryTab(location: Location) {
     return () => unsubscribe(); // Clean up listener on unmount
   }, [location.id]);
 
+  function handleDragEnd(event: DragEndEvent) {
+    const { active, over } = event;
+
+    if (!over || !active) return;
+
+    if (active.id !== over.id) {
+      console.log(over, active);
+      setAdvisories((items) => {
+        console.log(items);
+        const oldIndex = items.findIndex((ad) => ad.id === active.id);
+        const newIndex = items.findIndex((ad) => ad.id === over.id);
+
+        const updatedArray = arrayMove(items, oldIndex, newIndex);
+
+        // Updated Order
+        const reordered = updatedArray.map((advisory, idx) => ({
+        ...advisory,
+        order: updatedArray.length - idx - 1,
+      }));
+
+      reordered.forEach((advisory) => {
+        updateAdvisory(advisory);
+      });
+
+        return updatedArray;
+      });
+    }
+  }
+
+  useEffect(() => {
+
+  })
+
   return (
-    <div className="h-[60vh] overflow-y-auto">
-      <header className="font-semibold"><a href={`http://localhost:9209/${location.code}`} rel="noopener noreferrer" target="_blank">{location.name}</a></header>
-      <div className="space-y-2">
-        {advisories.map((item) => {
-          return <AdvisoryItem {...item} />;
-        })}
-      </div>
-    </div>
+    <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
+      <SortableContext
+        items={advisories}
+        strategy={verticalListSortingStrategy}
+      >
+        <div className="h-[60vh] overflow-y-auto">
+          <header className="font-semibold">
+            <a
+              href={`http://localhost:9209/${location.code}`}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              {location.name}
+            </a>
+          </header>
+          <div className="space-y-2">
+            {advisories.map((item) => (
+              <AdvisoryItem key={item.id} {...item} />
+            ))}
+          </div>
+        </div>
+      </SortableContext>
+    </DndContext>
   );
 }
 

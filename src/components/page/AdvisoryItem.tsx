@@ -4,8 +4,25 @@ import { Switch } from "../ui/switch";
 import { deleteAdvisory, updateAdvisory, type Advisory } from "@/api/database";
 import UpdateAdvisory from "./UpdateAdvisory";
 import CustomAlertDialog from "../ui/customalertdialog";
+import { useSortable } from "@dnd-kit/sortable";
+import {CSS} from '@dnd-kit/utilities';
 
 function AdvisoryItem(item: Advisory) {
+
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    setActivatorNodeRef
+  } = useSortable({id: item.id});
+  
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
+
   const onToggleAdvisory = async () => {
     await updateAdvisory({ ...item, enabled: item.enabled == 0 ? 1 : 0 });
   };
@@ -15,9 +32,9 @@ function AdvisoryItem(item: Advisory) {
   };
 
   return (
-    <div className="flex flex-col gap-1 border p-2 pb-5 rounded">
+    <div className="bg-white flex flex-col gap-1 border p-2 pb-5 rounded" ref={setNodeRef} style={style}>
       <div className="flex justify-between">
-        <Button variant="ghost" size="icon">
+        <Button variant="ghost" size="icon" {...attributes} {...listeners} ref={setActivatorNodeRef}>
           <GripHorizontal />
         </Button>
         <div className="space-x-2">
