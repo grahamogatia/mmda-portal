@@ -22,7 +22,7 @@ import {
   SortableContext,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { FileQuestion, FileQuestionMark } from "lucide-react";
+import { FileQuestion } from "lucide-react";
 
 function AdvisoryTab(location: Location) {
   const [advisories, setAdvisories] = useState<Advisory[]>([]);
