@@ -53,7 +53,7 @@ function AdvisoryItem(item: Advisory) {
             type="toggleAdvisoryAlert"
             onConfirm={onToggleAdvisory}
             trigger={
-              <Switch checked={Boolean(item.enabled)} className="mr-3" />
+              <Switch checked={Boolean(item.enabled)} className="mr-3 data-[state=checked]:bg-emerald-500" />
             }
             triggerAsChild={false}
           />

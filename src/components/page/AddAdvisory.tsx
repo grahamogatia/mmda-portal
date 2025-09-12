@@ -48,7 +48,7 @@ function AddAdvisory() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button>
+        <Button variant="destructive" className="cursor-pointer">
           <Plus />
           Add
         </Button>

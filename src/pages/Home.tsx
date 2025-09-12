@@ -20,7 +20,7 @@ function Home() {
   };
   return (
     <div className="flex flex-col items-center justify-center">
-      <header className="container  flex justify-between items-center p-4">
+      <header className="container  flex justify-between items-center p-4 bg-[#04173D] text-white">
         <p className="text-xl font-semibold">MMDA Admin Portal</p>
         <div className="flex items-center gap-x-4">
           <div className="flex items-center gap-x-2">
@@ -28,21 +28,21 @@ function Home() {
             <SelectInterval />
           </div>
 
-          <Button type="button" onClick={onClick}>
+          <Button type="button" onClick={onClick} className="cursor-pointer" variant="destructive">
             Logout
           </Button>
         </div>
       </header>
-      <main className="relative border container p-4 shadow rounded-lg space-y-4">
+      <main className="relative container p-4 rounded-lg space-y-4">
         <Tabs
           orientation="vertical"
           defaultValue={locations[0].name}
           className="flex-row h-full"
         >
-          <TabsList className="flex-col h-auto gap-2">
+          <TabsList className="flex-col h-auto gap-2 shadow-md border bg-[#04173D]">
             {locations.map((location) => {
               return (
-                <TabsTrigger value={location.name} className="w-full">
+                <TabsTrigger value={location.name} className="w-full text-white data-[state=active]:text-[#04173D]">
                   {location.name}
                 </TabsTrigger>
               );
@@ -53,7 +53,7 @@ function Home() {
               <TabsContent
                 key={location.id}
                 value={location.name}
-                className="border rounded-lg p-2"
+                className="border rounded-lg p-2 shadow-md"
               >
                 <AdvisoryTab {...location} />
               </TabsContent>

@@ -72,7 +72,7 @@ function AdvisoryTab(location: Location) {
       }
     }
   };
-  
+
   return (
     <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
       <SortableContext
