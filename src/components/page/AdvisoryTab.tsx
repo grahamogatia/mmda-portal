@@ -2,7 +2,7 @@ import { type Location } from "@/api/locations";
 import { updateAdvisory, type Advisory } from "@/api/database";
 import { useEffect, useState } from "react";
 import AdvisoryItem from "./AdvisoryItem";
-import { collection, onSnapshot, query, where } from "firebase/firestore";
+import { collection, onSnapshot, orderBy, query, where } from "firebase/firestore";
 import { db } from "@/api/firebase";
 import {
   DndContext,
@@ -25,7 +25,8 @@ function AdvisoryTab(location: Location) {
     const q = query(
       collection(db, "advisories"),
       where("location", "==", location.id),
-      where("isDeleted", "==", 0)
+      where("isDeleted", "==", 0),
+      orderBy("order", "asc"),
     );
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
@@ -55,7 +56,7 @@ function AdvisoryTab(location: Location) {
         // Updated Order
         reordered = updatedArray.map((advisory, idx) => ({
           ...advisory,
-          order: updatedArray.length - idx - 1,
+          order: idx,
         }));
 
         return updatedArray;
