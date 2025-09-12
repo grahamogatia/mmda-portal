@@ -22,6 +22,7 @@ import {
   SortableContext,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
+import { FileQuestion, FileQuestionMark } from "lucide-react";
 
 function AdvisoryTab(location: Location) {
   const [advisories, setAdvisories] = useState<Advisory[]>([]);
@@ -89,10 +90,20 @@ function AdvisoryTab(location: Location) {
               {location.name}
             </a>
           </header>
-          <div className="space-y-2">
-            {advisories.map((item) => (
-              <AdvisoryItem key={item.id} {...item} />
-            ))}
+          <div className="flex flex-col justify-center space-y-2">
+            {advisories.length > 0 ? (
+              advisories.map((item) => <AdvisoryItem key={item.id} {...item} />)
+            ) : (
+              <div className="flex flex-col items-center justify-center py-12 text-center rounded-lg">
+                <FileQuestion className="h-12 w-12 text-gray-400 mb-4" />
+                <h3 className="text-lg font-medium text-gray-500">
+                  No advisories yet
+                </h3>
+                <p className="text-sm text-gray-400">
+                  You don’t have any advisories at the moment.
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </SortableContext>

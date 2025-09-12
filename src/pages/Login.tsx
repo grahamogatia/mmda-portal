@@ -87,7 +87,7 @@ function Login() {
             <div>
               <Button
                 type="submit"
-                className="w-full rounded-md bg-primary px-4 py-2 font-semibold text-white shadow transition-colors hover:bg-primary/90"
+                className="w-full rounded-md px-4 py-2 font-semibold text-white shadow transition-colors hover:bg-primary/90 bg-[#04173D]"
               >
                 Sign in
               </Button>
