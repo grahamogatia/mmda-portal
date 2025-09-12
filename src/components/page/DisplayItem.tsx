@@ -1,33 +1,43 @@
-import type { Advisory } from "@/api/database";
+import { getDisplayInterval, type Advisory } from "@/api/database";
 import { useEffect, useState } from "react";
 
-const TIME_INTERVAL = 1000;
+const MILLISECOND_PER_SECOND = 1000;
 
-function DisplayItem({items}: {items:Advisory[]}) {
-    const [index, setIndex] = useState(0);
+function DisplayItem({ items }: { items: Advisory[] }) {
+  const [index, setIndex] = useState(0);
 
-    useEffect(() => {
-        if (items.length === 0) return;
+  useEffect(() => {
+    let intervalId: number;
 
-        const interval = setInterval(() => {
-            setIndex((prev) => (prev + 1) % items.length);
-        }, TIME_INTERVAL);
+    (async () => {
+      if (items.length === 0) return;
 
-        return () => clearInterval(interval);
-    }, [items]);
+      const result = await getDisplayInterval();
+      const intervalMs =
+        Number(result?.interval) * MILLISECOND_PER_SECOND || 10000;
 
-    useEffect(() => {
-        setIndex(0);
-    }, [items]);
+      intervalId = setInterval(() => {
+        setIndex((prev) => (prev + 1) % items.length);
+      }, intervalMs);
+    })();
 
-    const currentItem = items[index];
+    return () => clearInterval(intervalId);
+  }, [items]);
 
-    return currentItem && (
-        <div
-            className="text-center max-w-[590px]"
-            dangerouslySetInnerHTML={{ __html: currentItem.content }}
-        />
-    );
+  useEffect(() => {
+    setIndex(0);
+  }, [items]);
+
+  const currentItem = items[index];
+
+  return (
+    currentItem && (
+      <div
+        className="text-center max-w-[590px]"
+        dangerouslySetInnerHTML={{ __html: currentItem.content }}
+      />
+    )
+  );
 }
 
 export default DisplayItem;
