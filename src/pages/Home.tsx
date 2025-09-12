@@ -9,7 +9,7 @@ import { locations } from "../api/locations.ts";
 import { useNavigate } from "react-router-dom";
 import AddAdvisory from "@/components/page/AddAdvisory.tsx";
 import AdvisoryTab from "@/components/page/AdvisoryTab.tsx";
-import { CirclePlus, SquarePlus } from "lucide-react";
+import SelectInterval from "@/components/page/SelectInterval.tsx"
 
 function Home() {
   const navigate = useNavigate();
@@ -22,9 +22,16 @@ function Home() {
     <div className="flex flex-col items-center justify-center">
       <header className="container  flex justify-between items-center p-4">
         <p className="text-xl font-semibold">MMDA Admin Portal</p>
-        <Button type="button" onClick={onClick}>
-          Logout
-        </Button>
+        <div className="flex items-center">
+            <div className="flex items-center">
+                Display Interval:
+                <SelectInterval />
+            </div>
+
+          <Button type="button" onClick={onClick}>
+            Logout
+          </Button>
+        </div>
       </header>
       <main className="relative border container p-4 shadow rounded-lg space-y-4">
         <Tabs

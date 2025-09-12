@@ -14,6 +14,7 @@ import { db } from "./firebase.ts";
 
 const ADVISORY_COLLECTION = collection(db, "advisories");
 const USER_COLLECTION = collection(db, "users");
+const CURRENT_DISPLAY_INTERVAL = collection(db, "display_interval");
 
 export type LocationId = (typeof locations)[number]["id"];
 
@@ -138,3 +139,19 @@ export const registerUser = async (user: Omit<User, "id">) => {
   const password = await bcrypt.hash(user.password, 10);
   return await addDoc(USER_COLLECTION, {username: user.username, password: password});
 };
+
+export const getDisplayInterval = async () => {
+  const snapshot = await getDocs(CURRENT_DISPLAY_INTERVAL);
+  if (snapshot.empty) return null;
+  const doc = snapshot.docs[0];
+  return { id: doc.id, ...doc.data() } as unknown as {interval: number};
+};
+
+export const updateDisplayInterval = async (data: Record<string, any>) => {
+  const snapshot = await getDocs(CURRENT_DISPLAY_INTERVAL);
+  if (snapshot.empty) return null;
+  const docRef = snapshot.docs[0].ref;
+  await updateDoc(docRef, data);
+  return { id: snapshot.docs[0].id, ...data };
+};
+  
