@@ -49,6 +49,7 @@ function Display() {
     setup();
   }, [id]);
 
+  console.log(id);
   if (!id) {
     return <Navigate to="/login" />;
   }

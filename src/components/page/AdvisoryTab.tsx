@@ -83,9 +83,10 @@ function AdvisoryTab(location: Location) {
         <div className="h-[60vh] overflow-y-auto">
           <header className="font-semibold">
             <a
-              href={`http://localhost:9209/${location.code}`}
+              href={`https://mmdaportal.mds.com.ph/${location.code}`}
               rel="noopener noreferrer"
               target="_blank"
+              className="hover:text-red-800"
             >
               {location.name}
             </a>

@@ -8,6 +8,7 @@ function App() {
   return (
     <Routes>
       <Route path="login" element={<Login />} />
+      <Route path="/" element={<Display />} />
       <Route path="/:id" element={<Display />} />
       <Route element={<ProtectedRoute />}>
         <Route path="home" element={<Home />} />

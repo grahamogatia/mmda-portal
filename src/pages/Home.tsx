@@ -19,8 +19,8 @@ function Home() {
     navigate("/login");
   };
   return (
-    <div className="flex flex-col items-center justify-center">
-      <header className="container  flex justify-between items-center p-4 bg-[#04173D] text-white">
+    <div className="w-full flex flex-col items-center justify-center">
+      <header className=" flex justify-between items-center p-4 bg-[#04173D] text-white w-full">
         <p className="text-xl font-semibold">MMDA Admin Portal</p>
         <div className="flex items-center gap-x-4">
           <div className="flex items-center gap-x-2">
@@ -33,7 +33,7 @@ function Home() {
           </Button>
         </div>
       </header>
-      <main className="relative container p-4 rounded-lg space-y-4">
+      <main className="w-full relative p-4 rounded-lg space-y-4">
         <Tabs
           orientation="vertical"
           defaultValue={locations[0].name}
