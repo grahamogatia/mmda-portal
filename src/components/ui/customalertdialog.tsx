@@ -26,7 +26,7 @@ const dialogConfig = {
   },
   toggleAdvisoryAlert: {
     title: "Toggle Advisory?",
-    description: "This will toggle the advisory.",
+    description: "This will enable or disable the advisory. You can toggle it again later if needed.",
   },
 } as const;
 
