@@ -2,7 +2,13 @@ import { type Location } from "@/api/locations";
 import { updateAdvisory, type Advisory } from "@/api/database";
 import { useEffect, useState } from "react";
 import AdvisoryItem from "./AdvisoryItem";
-import { collection, onSnapshot, orderBy, query, where } from "firebase/firestore";
+import {
+  collection,
+  onSnapshot,
+  orderBy,
+  query,
+  where,
+} from "firebase/firestore";
 import { db } from "@/api/firebase";
 import {
   DndContext,
@@ -26,7 +32,7 @@ function AdvisoryTab(location: Location) {
       collection(db, "advisories"),
       where("location", "==", location.id),
       where("isDeleted", "==", 0),
-      orderBy("order", "asc"),
+      orderBy("order", "asc")
     );
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
@@ -46,7 +52,6 @@ function AdvisoryTab(location: Location) {
     if (!over || !active) return;
 
     if (active.id !== over.id) {
-
       setAdvisories((items) => {
         const oldIndex = items.findIndex((ad) => ad.id === active.id);
         const newIndex = items.findIndex((ad) => ad.id === over.id);
@@ -63,15 +68,12 @@ function AdvisoryTab(location: Location) {
       });
 
       for (const advisory of reordered) {
-        const result = await updateAdvisory(advisory);
-        console.log(result)
+        await updateAdvisory(advisory);
       }
     }
-  }
+  };
 
-  useEffect(() => {
-
-  })
+  useEffect(() => {});
 
   return (
     <DndContext sensors={sensors} onDragEnd={handleDragEnd}>

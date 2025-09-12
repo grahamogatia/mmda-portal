@@ -40,7 +40,7 @@ function AddAdvisory() {
       values.location.map((loc: Location) => loc.id)
     );
     if (result) {
-      toast.success("Successfully added to the database.")
+      toast.success("Successfully added to the database.");
       form.reset();
     }
   };
@@ -49,7 +49,7 @@ function AddAdvisory() {
     <Dialog>
       <DialogTrigger asChild>
         <Button>
-          <Plus/>
+          <Plus />
           Add
         </Button>
       </DialogTrigger>
@@ -75,12 +75,16 @@ function AddAdvisory() {
 
                         if (!selectedLocation) return field.value;
 
-                        const updated = field.value.find((item: Location) => item.id === id)
-                          ? field.value.filter((item: Location) => item.id !== id)
+                        const updated = field.value.find(
+                          (item: Location) => item.id === id
+                        )
+                          ? field.value.filter(
+                              (item: Location) => item.id !== id
+                            )
                           : [...field.value, selectedLocation];
-                      
-                          field.onChange(updated)
-                        }}
+
+                        field.onChange(updated);
+                      }}
                     />
                   </FormControl>
                   <FormMessage />
@@ -94,9 +98,12 @@ function AddAdvisory() {
                 <FormItem>
                   <FormLabel>Enter Advisory Here</FormLabel>
                   <FormControl>
-                    <Editable 
-                    content={field.value}
-                    setContent={(content) => {field.onChange(content)}} />
+                    <Editable
+                      content={field.value}
+                      setContent={(content) => {
+                        field.onChange(content);
+                      }}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

@@ -37,8 +37,6 @@ function UpdateAdvisory(item: Advisory) {
 
   const onSubmit = async (values: z.infer<typeof updateAdvisorySchema>) => {
     try {
-      console.log("Submitting values:", values);
-
       const result = await updateAdvisory({
         ...item,
         content: values.content,

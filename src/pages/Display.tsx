@@ -3,7 +3,13 @@ import { locations } from "@/api/locations";
 import { useEffect, useState } from "react";
 import { type Advisory } from "@/api/database";
 import DisplayItem from "@/components/page/DisplayItem";
-import { collection, onSnapshot, orderBy, query, where } from "firebase/firestore";
+import {
+  collection,
+  onSnapshot,
+  orderBy,
+  query,
+  where,
+} from "firebase/firestore";
 import { db } from "@/api/firebase";
 
 function Display() {
@@ -27,9 +33,9 @@ function Display() {
         where("location", "==", location.id),
         where("enabled", "==", 1),
         where("isDeleted", "==", 0),
-        orderBy("order", "asc"),
+        orderBy("order", "asc")
       );
-  
+
       const unsubscribe = onSnapshot(q, (snapshot) => {
         const results = snapshot.docs.map((doc) => ({
           id: doc.id,
@@ -37,7 +43,7 @@ function Display() {
         })) as Advisory[];
         setAdvisories(results.sort((a, b) => a.order - b.order));
       });
-  
+
       return () => unsubscribe();
     };
     setup();

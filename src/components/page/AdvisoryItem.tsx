@@ -5,19 +5,18 @@ import { deleteAdvisory, updateAdvisory, type Advisory } from "@/api/database";
 import UpdateAdvisory from "./UpdateAdvisory";
 import CustomAlertDialog from "../ui/customalertdialog";
 import { useSortable } from "@dnd-kit/sortable";
-import {CSS} from '@dnd-kit/utilities';
+import { CSS } from "@dnd-kit/utilities";
 
 function AdvisoryItem(item: Advisory) {
-
   const {
     attributes,
     listeners,
     setNodeRef,
     transform,
     transition,
-    setActivatorNodeRef
-  } = useSortable({id: item.id});
-  
+    setActivatorNodeRef,
+  } = useSortable({ id: item.id });
+
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
@@ -32,9 +31,19 @@ function AdvisoryItem(item: Advisory) {
   };
 
   return (
-    <div className="bg-white flex flex-col gap-1 border p-2 pb-5 rounded" ref={setNodeRef} style={style}>
+    <div
+      className="bg-white flex flex-col gap-1 border p-2 pb-5 rounded"
+      ref={setNodeRef}
+      style={style}
+    >
       <div className="flex justify-between">
-        <Button variant="ghost" size="icon" {...attributes} {...listeners} ref={setActivatorNodeRef}>
+        <Button
+          variant="ghost"
+          size="icon"
+          {...attributes}
+          {...listeners}
+          ref={setActivatorNodeRef}
+        >
           <GripHorizontal />
         </Button>
         <div className="space-x-2">
@@ -42,10 +51,7 @@ function AdvisoryItem(item: Advisory) {
             type="toggleAdvisoryAlert"
             onConfirm={onToggleAdvisory}
             trigger={
-              <Switch
-                checked={Boolean(item.enabled)}
-                className="mr-3"
-              />
+              <Switch checked={Boolean(item.enabled)} className="mr-3" />
             }
             triggerAsChild={false}
           />

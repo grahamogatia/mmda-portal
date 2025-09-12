@@ -9,7 +9,7 @@ import { locations } from "../api/locations.ts";
 import { useNavigate } from "react-router-dom";
 import AddAdvisory from "@/components/page/AddAdvisory.tsx";
 import AdvisoryTab from "@/components/page/AdvisoryTab.tsx";
-import SelectInterval from "@/components/page/SelectInterval.tsx"
+import SelectInterval from "@/components/page/SelectInterval.tsx";
 
 function Home() {
   const navigate = useNavigate();
@@ -23,10 +23,10 @@ function Home() {
       <header className="container  flex justify-between items-center p-4">
         <p className="text-xl font-semibold">MMDA Admin Portal</p>
         <div className="flex items-center gap-x-4">
-            <div className="flex items-center gap-x-2">
-                <strong>Display Interval:</strong>
-                <SelectInterval />
-            </div>
+          <div className="flex items-center gap-x-2">
+            <strong>Display Interval:</strong>
+            <SelectInterval />
+          </div>
 
           <Button type="button" onClick={onClick}>
             Logout

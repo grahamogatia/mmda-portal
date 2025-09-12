@@ -41,11 +41,11 @@ export const addAdvisoryToDB = async (
   const createdIds: string[] = [];
 
   for (const locationId of locationIds) {
-
-    const advisories = (await getAdvisoriesByLocation(locationId))
-      .sort((a,b) => { 
-        return b.order - a.order
-      });
+    const advisories = (await getAdvisoriesByLocation(locationId)).sort(
+      (a, b) => {
+        return b.order - a.order;
+      }
+    );
     let nextOrder = advisories.length > 0 ? advisories[0].order + 1 : 0;
 
     const item: Omit<Advisory, "id"> = {
@@ -55,7 +55,7 @@ export const addAdvisoryToDB = async (
       order: nextOrder,
       isDeleted: 0,
     };
-    
+
     const docRef = await addDoc(ADVISORY_COLLECTION, item);
     createdIds.push(docRef.id);
   }
@@ -91,7 +91,7 @@ export const getAdvisoriesByLocation = async (
       ({
         id: doc.id, // Firestore doc id
         ...(doc.data() as Omit<Advisory, "id">),
-      }) as unknown as Advisory
+      } as unknown as Advisory)
   );
 };
 
@@ -104,20 +104,23 @@ export const updateAdvisory = async (advisory: Advisory) => {
 
 export const deleteAdvisory = async (advisory: Advisory) => {
   const advisoryRef = doc(ADVISORY_COLLECTION, advisory.id);
-  await updateDoc(advisoryRef, {isDeleted: 1});
+  await updateDoc(advisoryRef, { isDeleted: 1 });
   return { ...advisory, isDeleted: 1 };
 };
 
 export const loginUser = async (user: Omit<User, "id">) => {
   const q = query(USER_COLLECTION, where("username", "==", user.username));
-  
+
   const snapshot = await getDocs(q);
   if (snapshot.empty) {
     return "Invalid username or password";
   }
 
   const doc = snapshot.docs[0];
-  const currentUser = { id: doc.id, ...(doc.data() as Omit<User, "id">) } as unknown as User;
+  const currentUser = {
+    id: doc.id,
+    ...(doc.data() as Omit<User, "id">),
+  } as unknown as User;
 
   const isMatch = await bcrypt.compare(user.password, currentUser.password);
   if (!isMatch) {
@@ -126,9 +129,9 @@ export const loginUser = async (user: Omit<User, "id">) => {
 
   const token = generateSessionToken();
   currentUser.token = token;
-  await updateDoc(doc.ref, { token });  
+  await updateDoc(doc.ref, { token });
 
-  // For TESTING Adduing User 
+  // For TESTING Adduing User
   // const password = await bcrypt.hash(user.password, 10);
   // const docRef = await addDoc(USER_COLLECTION, {username: user.username, password: password});
 
@@ -137,14 +140,17 @@ export const loginUser = async (user: Omit<User, "id">) => {
 
 export const registerUser = async (user: Omit<User, "id">) => {
   const password = await bcrypt.hash(user.password, 10);
-  return await addDoc(USER_COLLECTION, {username: user.username, password: password});
+  return await addDoc(USER_COLLECTION, {
+    username: user.username,
+    password: password,
+  });
 };
 
 export const getDisplayInterval = async () => {
   const snapshot = await getDocs(CURRENT_DISPLAY_INTERVAL);
   if (snapshot.empty) return null;
   const doc = snapshot.docs[0];
-  return { id: doc.id, ...doc.data() } as unknown as {interval: number};
+  return { id: doc.id, ...doc.data() } as unknown as { interval: number };
 };
 
 export const updateDisplayInterval = async (data: Record<string, any>) => {
@@ -154,4 +160,3 @@ export const updateDisplayInterval = async (data: Record<string, any>) => {
   await updateDoc(docRef, data);
   return { id: snapshot.docs[0].id, ...data };
 };
-  
