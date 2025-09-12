@@ -23,6 +23,7 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { FileQuestion } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
 function AdvisoryTab(location: Location) {
   const [advisories, setAdvisories] = useState<Advisory[]>([]);
@@ -82,14 +83,21 @@ function AdvisoryTab(location: Location) {
       >
         <div className="h-[60vh] overflow-y-auto">
           <header className="font-semibold">
-            <a
-              href={`https://mmdaportal.mds.com.ph/${location.code}`}
-              rel="noopener noreferrer"
-              target="_blank"
-              className="hover:text-red-800"
-            >
-              {location.name}
-            </a>
+            <Tooltip>
+              <TooltipTrigger>
+                <a
+                  href={`https://mmdaportal.mds.com.ph/${location.code}`}
+                  rel="noopener noreferrer"
+                  target="_blank"
+                  className="hover:text-red-500 hover:underline"
+                >
+                  {location.name}
+                </a>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>{`https://mmdaportal.mds.com.ph/${location.code}`}</p>
+              </TooltipContent>
+            </Tooltip>
           </header>
           <div className="flex flex-col justify-center space-y-2">
             {advisories.length > 0 ? (
