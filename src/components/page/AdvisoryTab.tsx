@@ -27,7 +27,7 @@ function AdvisoryTab(location: Location) {
   }, [location.id]);
 
   return (
-    <div>
+    <div className="h-[60vh] overflow-y-auto">
       <header className="font-semibold"><a href={`http://localhost:9209/${location.code}`} rel="noopener noreferrer" target="_blank">{location.name}</a></header>
       <div className="space-y-2">
         {advisories.map((item) => {

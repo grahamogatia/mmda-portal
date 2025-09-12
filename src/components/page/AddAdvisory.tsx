@@ -23,6 +23,7 @@ import {
 } from "../ui/form";
 import { toast } from "sonner";
 import type z from "zod";
+import { Plus } from "lucide-react";
 
 function AddAdvisory() {
   const form = useForm<z.infer<typeof advisorySchema>>({
@@ -47,7 +48,10 @@ function AddAdvisory() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button>Add</Button>
+        <Button>
+          <Plus/>
+          Add
+        </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
