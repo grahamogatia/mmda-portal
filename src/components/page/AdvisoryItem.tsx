@@ -42,9 +42,11 @@ function AdvisoryItem(item: Advisory) {
           size="icon"
           {...attributes}
           {...listeners}
+          aria-label="Drag to reorder"
+          className="cursor-grab active:cursor-grabbing"
           ref={setActivatorNodeRef}
         >
-          <GripHorizontal />
+          <GripHorizontal className="text-gray-400" />
         </Button>
         <div className="space-x-2">
           <CustomAlertDialog
