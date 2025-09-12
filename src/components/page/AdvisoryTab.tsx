@@ -39,32 +39,32 @@ function AdvisoryTab(location: Location) {
     return () => unsubscribe(); // Clean up listener on unmount
   }, [location.id]);
 
-  function handleDragEnd(event: DragEndEvent) {
+  const handleDragEnd = async (event: DragEndEvent) => {
     const { active, over } = event;
-
+    let reordered = [...advisories];
     if (!over || !active) return;
 
     if (active.id !== over.id) {
-      console.log(over, active);
+
       setAdvisories((items) => {
-        console.log(items);
         const oldIndex = items.findIndex((ad) => ad.id === active.id);
         const newIndex = items.findIndex((ad) => ad.id === over.id);
 
         const updatedArray = arrayMove(items, oldIndex, newIndex);
 
         // Updated Order
-        const reordered = updatedArray.map((advisory, idx) => ({
-        ...advisory,
-        order: updatedArray.length - idx - 1,
-      }));
-
-      reordered.forEach((advisory) => {
-        updateAdvisory(advisory);
-      });
+        reordered = updatedArray.map((advisory, idx) => ({
+          ...advisory,
+          order: updatedArray.length - idx - 1,
+        }));
 
         return updatedArray;
       });
+
+      for (const advisory of reordered) {
+        const result = await updateAdvisory(advisory);
+        console.log(result)
+      }
     }
   }
 
