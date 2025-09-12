@@ -34,7 +34,7 @@ function Display() {
           id: doc.id,
           ...doc.data(),
         })) as Advisory[];
-        setAdvisories(results);
+        setAdvisories(results.sort((a, b) => a.order - b.order));
       });
   
       return () => unsubscribe();

@@ -33,7 +33,7 @@ function AdvisoryTab(location: Location) {
         id: doc.id,
         ...doc.data(),
       })) as Advisory[];
-      setAdvisories(results);
+      setAdvisories(results.sort((a, b) => a.order - b.order));
     });
 
     return () => unsubscribe(); // Clean up listener on unmount
